@@ -21,6 +21,7 @@ struct Particle {
 	std::vector<int> associations;
 	std::vector<double> sense_x;
 	std::vector<double> sense_y;
+
 };
 
 
@@ -29,7 +30,11 @@ class ParticleFilter {
 	
 	// Number of particles to draw
 	int num_particles; 
-	
+
+  // Standard deviation for GPS measurements
+	float std_x;
+	float std_y;
+	float std_theta;
 	
 	
 	// Flag, if filter is initialized
@@ -42,6 +47,7 @@ public:
 	
 	// Set of current particles
 	std::vector<Particle> particles;
+	std::vector<Particle> particles_new;
 
 	// Constructor
 	// @param num_particles Number of particles
@@ -71,14 +77,6 @@ public:
 	 * @param yaw_rate Yaw rate of car from t to t+1 [rad/s]
 	 */
 	void prediction(double delta_t, double std_pos[], double velocity, double yaw_rate);
-	
-	/**
-	 * dataAssociation Finds which observations correspond to which landmarks (likely by using
-	 *   a nearest-neighbors data association).
-	 * @param predicted Vector of predicted landmark observations
-	 * @param observations Vector of landmark observations
-	 */
-	void dataAssociation(std::vector<LandmarkObs> predicted, std::vector<LandmarkObs>& observations);
 	
 	/**
 	 * updateWeights Updates the weights for each particle based on the likelihood of the 
